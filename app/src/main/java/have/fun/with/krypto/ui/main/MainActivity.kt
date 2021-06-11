@@ -2,7 +2,6 @@ package have.`fun`.with.krypto.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
@@ -27,14 +26,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun setupView() {
-
         findViewById<RecyclerView>(R.id.recycler_view).apply {
-            Log.d("Bolot", "hello")
             coinsAdapter = CoinsAdapter()
             layoutManager = LinearLayoutManager(this@MainActivity)
             itemAnimator = DefaultItemAnimator()
             adapter = coinsAdapter
-            Log.d("Bolot", "hello")
         }
 
         findViewById<EditText>(R.id.et_search).addTextChangedListener { editable ->
@@ -42,15 +38,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 mainVM.coins.filter { it.name.contains(editable.toString(), true) }
             )
         }
-//            etSearch.addTextChangedListener(
-//
-//            )
-//            { editable ->
-//                Log.d("Bolot", " -- $editable")
-//                coinsAdapter?.addItems(
-//                    mainVM.coins.filter { it.name.contains(editable.toString()) }
-//                )
-//            }
     }
 
     private fun subscribeToLiveData() {

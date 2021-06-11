@@ -1,6 +1,5 @@
 package have.`fun`.with.krypto.repository
 
-import android.util.Log
 import have.`fun`.with.krypto.db.CoinsDao
 import have.`fun`.with.krypto.network.CoinsApi
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,7 +13,6 @@ class CoinsRepository(private val api: CoinsApi,
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
-                Log.d("Bolot", " ---> " + it.coins.size)
                 db.insertAll(it.coins)
                 true
             }

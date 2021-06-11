@@ -6,18 +6,24 @@ import have.`fun`.with.krypto.BuildConfig
 import have.`fun`.with.krypto.BuildConfig.BASE_URL
 import have.`fun`.with.krypto.db.AppDatabase
 import have.`fun`.with.krypto.network.CoinsApi
+import have.`fun`.with.krypto.network.NetworkConnectionInterceptor
 import have.`fun`.with.krypto.repository.CoinsRepository
 import have.`fun`.with.krypto.ui.main.MainVM
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
+val appModule = module {
+    single { androidContext().resources }
+}
+
 val viewModelModule = module {
-    viewModel { MainVM(get()) }
+    viewModel { MainVM(get(), get()) }
 }
 val repoModule = module {
     single { CoinsRepository(get(), get()) }
@@ -41,6 +47,7 @@ val networkModule = module {
         if(BuildConfig.DEBUG)
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         clientBuilder.addInterceptor(loggingInterceptor)
+        clientBuilder.addInterceptor(NetworkConnectionInterceptor(get()))
         clientBuilder.build()
     }
     single {
