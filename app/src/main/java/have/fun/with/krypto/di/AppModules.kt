@@ -1,7 +1,10 @@
 package have.`fun`.with.krypto.di
 
+import android.app.Application
+import androidx.room.Room
 import have.`fun`.with.krypto.BuildConfig
 import have.`fun`.with.krypto.BuildConfig.BASE_URL
+import have.`fun`.with.krypto.db.AppDatabase
 import have.`fun`.with.krypto.network.CoinsApi
 import have.`fun`.with.krypto.repository.CoinsRepository
 import have.`fun`.with.krypto.ui.main.MainVM
@@ -17,10 +20,19 @@ val viewModelModule = module {
     viewModel { MainVM(get()) }
 }
 val repoModule = module {
-    single { CoinsRepository(get()) }
+    single { CoinsRepository(get(), get()) }
 }
 val dbModule = module {
 
+    fun provideAppDb(application: Application) =
+        Room.databaseBuilder(application, AppDatabase::class.java, "krypto_db")
+            .allowMainThreadQueries()
+            .build()
+
+    fun provideCoinsDao(db : AppDatabase) = db.coinsDao
+
+    single { provideAppDb(get()) }
+    single { provideCoinsDao(get()) }
 }
 val networkModule = module {
     single {
