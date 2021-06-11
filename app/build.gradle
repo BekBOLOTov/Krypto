@@ -13,8 +13,9 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField ("String", "BASE_URL", '"https://api.coinstats.app/public/v1/"')
     }
 
     buildTypes {
@@ -60,5 +61,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+    //RxJava2
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 }
