@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey
 @Entity
 data class Coin(
     @PrimaryKey
-    val id: String, val name: String)
+    val id: String,
+    val name: String,
+    val icon: String,
+    val price: Double)
 
 data class ResponseWrapper(val coins: List<Coin>)
